@@ -16,16 +16,25 @@ private:
 
 public:
 	Matrix();
-	Matrix(unsigned int row, unsigned int column);
+	Matrix(unsigned int rows, unsigned int columns);
+	Matrix(unsigned int rows, unsigned int columns, double initVal);
 	Matrix(const Matrix& m);
 	~Matrix();
 
+	Matrix& operator+= (const Matrix& m);
+	Matrix& operator-= (const Matrix& m);
+	Matrix& operator*= (const Matrix& m);
+	Matrix& operator/= (const Matrix& m);
 
-	Matrix& operator= (const Matrix& m);
+	Matrix& operator= (const Matrix& m);  //todo: spytać co powinno robić
 
-	friend Matrix operator+ (const Matrix& m1, const Matrix m2);
+	friend Matrix operator+ (const Matrix& m1, const Matrix& m2);
 	friend ostream& operator<< (ostream& s, const Matrix& m);
 };
 
 
+
+//struct DifferentSizesException : public exception {
+//
+//};
 #endif //MATRIX_MATRIX_H
