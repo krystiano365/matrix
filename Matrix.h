@@ -17,6 +17,7 @@ public:
 	Matrix(unsigned int row, unsigned int column);
 	Matrix(const Matrix& m);
 	~Matrix();
+	Matrix& operator= (const Matrix& m);
 };
 
 

@@ -34,11 +34,27 @@ Matrix::Matrix(unsigned int rows, unsigned int columns) {
 }
 
 Matrix::Matrix(const Matrix &m) {
+	this->rows_no = m.rows_no;
+	this->columns_no = m.columns_no;
 
+	allocate();
+
+	for(unsigned int r = 0 ; r < this->rows_no ; r++) {
+		for(unsigned int c = 0 ; c < this->columns_no ; c++) {
+			this->array[r][c] = m.array[r][c];
+		}
+	}
 }
 
 Matrix::~Matrix() {
+	for(unsigned int r = 0; r < rows_no; r++) {
+		delete[] array*;
+	}
+	delete[] array;
+}
 
+Matrix &Matrix::operator=(const Matrix &m) {
+	return <#initializer#>;
 }
 
 
