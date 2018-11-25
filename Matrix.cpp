@@ -54,7 +54,6 @@ Matrix::~Matrix() {
 }
 
 Matrix &Matrix::operator=(const Matrix &m) {
-	return <#initializer#>;
 }
 
 
