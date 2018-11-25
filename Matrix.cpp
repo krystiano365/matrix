@@ -48,12 +48,26 @@ Matrix::Matrix(const Matrix &m) {
 
 Matrix::~Matrix() {
 	for(unsigned int r = 0; r < rows_no; r++) {
-		delete[] array*;
+		delete[] array[r];
 	}
 	delete[] array;
 }
 
 Matrix &Matrix::operator=(const Matrix &m) {
+
+}
+
+ostream &operator<<(ostream &s, const Matrix &m) {
+	for(unsigned int r = 0 ; r < m.rows_no ; r++) {
+		s << "[";
+		for(unsigned int c = 0 ; c < m.columns_no ; c++) {
+			s << " " << m.array[r][c];
+		}
+		s << " ] r:" << r+1 << endl;
+	}
+	s << "c:";
+	for(unsigned int c = 1 ; c <= m.columns_no ; c++) s << c%10 << " ";
+	return s;
 }
 
 

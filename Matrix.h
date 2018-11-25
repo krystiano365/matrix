@@ -5,6 +5,8 @@
 #ifndef MATRIX_MATRIX_H
 #define MATRIX_MATRIX_H
 
+#include<ostream>
+using namespace std;
 
 class Matrix {
 private:
@@ -17,7 +19,12 @@ public:
 	Matrix(unsigned int row, unsigned int column);
 	Matrix(const Matrix& m);
 	~Matrix();
+
+
 	Matrix& operator= (const Matrix& m);
+
+
+	friend ostream& operator<< (ostream& s, const Matrix& m);
 };
 
 
