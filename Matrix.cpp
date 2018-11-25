@@ -5,7 +5,7 @@
 #include "Matrix.h"
 
 void Matrix::allocate() {
-	array = new double*[rows_no];
+	array = new double*[rows_no];		// creating array of arrays
 	for(unsigned int r = 0 ; r < rows_no ; r++) {
 		array[r] = new double[columns_no];
 	}
@@ -68,6 +68,16 @@ ostream &operator<<(ostream &s, const Matrix &m) {
 	s << "c:";
 	for(unsigned int c = 1 ; c <= m.columns_no ; c++) s << c%10 << " ";
 	return s;
+}
+
+Matrix operator+(const Matrix &m1, const Matrix m2) {
+
+
+
+
+
+
+	return result;
 }
 
 

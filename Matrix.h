@@ -23,7 +23,7 @@ public:
 
 	Matrix& operator= (const Matrix& m);
 
-
+	friend Matrix operator+ (const Matrix& m1, const Matrix m2);
 	friend ostream& operator<< (ostream& s, const Matrix& m);
 };
 
