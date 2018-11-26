@@ -73,6 +73,7 @@ Matrix &Matrix::operator=(const Matrix &m) {
 
 Matrix &Matrix::operator+=(const Matrix &m) {
 
+
 	if (this->rows_no == m.rows_no && this->columns_no == m.columns_no) {
 		for (unsigned int r = 0; r < this->rows_no; r++) {
 			for (unsigned int c = 0; c < this->columns_no; c++) {
@@ -80,14 +81,14 @@ Matrix &Matrix::operator+=(const Matrix &m) {
 			}
 		}
 	} else {
-		cout << "Couldn't add matrices: DifferentSizeException"; //todo: zapytać jak robić exceptions
+		throw DifferentSizesException();
 	}
 	return *this;
 }
 
 Matrix &Matrix::operator*=(const Matrix &m) {
-	Matrix result(this->rows_no, m.columns_no);
 	if (this->columns_no == m.rows_no) {
+		Matrix result(this->rows_no, m.columns_no);
 		for (unsigned int k = 0; k < this->rows_no; k++) {
 			for (unsigned int j = 0; j < m.columns_no; j++) {
 				for(unsigned int i = 0; i < this->columns_no; i++) {
@@ -95,12 +96,15 @@ Matrix &Matrix::operator*=(const Matrix &m) {
 				}
 			}
 		}
+		*this = result;  // todo: zrobić = copy operator
 	} else {
-		cout << "Couldn't multiply matrices: DifferentSizeException"; //todo: zapytać jak robić exceptions
-		return *this;
+		throw DifferentSizesException();
 	}
-	return (*this = result); // todo: zrobić = copy operator
+
+	return *this;
 }
+
+
 
 Matrix operator+(const Matrix &m1, const Matrix &m2) {
 

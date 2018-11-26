@@ -34,7 +34,13 @@ public:
 
 
 
-//struct DifferentSizesException : public exception {
-//
-//};
+struct DifferentSizesException : public exception {
+
+public:
+	auto what() {
+		return "Couldn't add matrices: DifferentSizeException";
+	}
+};
+
+
 #endif //MATRIX_MATRIX_H
