@@ -5,6 +5,9 @@
 #ifndef MATRIX_SMART_PTR_H
 #define MATRIX_SMART_PTR_H
 
+#include <iostream>
+using namespace std;
+
 template<class T> class smart_ptr {
 private:
 	class referenceCounter{
@@ -14,17 +17,19 @@ private:
 		void AddRef(){
 			counter++;
 		}
-		void SubstractRef(){
-			--counter;
+		int SubstractRef(){
+			return --counter;
+		}
+		int GetCounter(){
+			return counter;
 		}
 	};
 
-	T* p;
-	referenceCounter* c;
+	T* p = nullptr;
+	referenceCounter* c = nullptr;
 
 public:
 	smart_ptr(){
-		p = nullptr;
 		c = new referenceCounter();
 		c->AddRef();
 	}
@@ -45,6 +50,7 @@ public:
 		if(c->SubstractRef() == 0){
 			delete p;
 			delete c;
+			cout << "smart_ptr deleted" << endl;
 		}
 	}
 
@@ -66,6 +72,14 @@ public:
 			this->c = sp.c;
 			this->c->AddRef();
 		}
+	}
+
+	T& operator[] (const unsigned int i) const{
+		return p[i];
+	}
+
+	int getReferences_no() const{
+		return c->GetCounter();
 	}
 };
 

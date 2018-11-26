@@ -6,11 +6,13 @@
 #define MATRIX_MATRIX_H
 
 #include<ostream>
+#include "smart_ptr.h"
 using namespace std;
 
 class Matrix {
 private:
-	double** array;
+	//double** array;
+	smart_ptr<double*> array;
 	unsigned int rows_no, columns_no;
 	void allocate();
 

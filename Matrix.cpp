@@ -64,7 +64,8 @@ Matrix::~Matrix() {
 	for(unsigned int r = 0; r < rows_no; r++) {
 		delete[] array[r];
 	}
-	delete[] array;
+	cout << "remaining references number: " << this->array.getReferences_no();
+	//delete[] array;
 }
 
 Matrix &Matrix::operator=(const Matrix &m) {
