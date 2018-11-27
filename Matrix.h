@@ -23,6 +23,8 @@ public:
 	Matrix(const Matrix& m);
 	~Matrix();
 
+	int getReferences();
+	Matrix& perfectCopy(const Matrix& m);
 	Matrix& operator+= (const Matrix& m);
 	Matrix& operator-= (const Matrix& m);
 	Matrix& operator*= (const Matrix& m);
@@ -36,11 +38,25 @@ public:
 
 
 
-struct DifferentSizesException : public exception {
 
+
+// =====================================================================================================================EXCEPTIONS
+
+
+class DifferentSizesException : public exception { };
+
+class AdditionDifferentSizesException : public DifferentSizesException {
 public:
-	auto what() {
-		return "Couldn't add matrices: DifferentSizeException";
+	const char* what() const throw() {
+		return "Unable to add matrices: both matrices must have equal sizes";
+	}
+};
+
+class MultiplicationDifferentSizesException : public DifferentSizesException {
+public:
+	const char* what() const throw() {
+		return "Unable to multiply matrices: first matrix's COLUMNS NUMBER must be equal to the second matrix's ROWS "
+		 "NUMBER";
 	}
 };
 

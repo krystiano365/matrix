@@ -5,6 +5,11 @@
 #include <iostream>
 #include "Matrix.h"
 
+
+// ===============================================================================================================================================
+// =====================================================================================================================PRIVATE METHODS
+
+
 void Matrix::allocate() {
 	array = new double*[rows_no];		// creating array of arrays
 	for(unsigned int r = 0 ; r < rows_no ; r++) {
@@ -12,13 +17,15 @@ void Matrix::allocate() {
 	}
 }
 
+// ===============================================================================================================================================
+// =====================================================================================================================CONSTRUCTORS
+
+
 Matrix::Matrix() {
-	rows_no = 1;
-	columns_no = 1;
+	rows_no = 0;
+	columns_no = 0;
 
-	allocate();
-
-	array[0][0] = 0;
+	array = nullptr;
 }
 
 Matrix::Matrix(unsigned int rows, unsigned int columns) {
@@ -50,39 +57,66 @@ Matrix::Matrix(unsigned int rows, unsigned int columns, double initVal) {
 Matrix::Matrix(const Matrix &m) {
 	this->rows_no = m.rows_no;
 	this->columns_no = m.columns_no;
+	this->array = m.array;
 
-	allocate();
-
-	for(unsigned int r = 0 ; r < this->rows_no ; r++) {
-		for(unsigned int c = 0 ; c < this->columns_no ; c++) {
-			this->array[r][c] = m.array[r][c];
-		}
-	}
+//	allocate();
+//	for(unsigned int r = 0 ; r < this->rows_no ; r++) {
+//		for(unsigned int c = 0 ; c < this->columns_no ; c++) {
+//			this->array[r][c] = m.array[r][c];
+//		}
+//	}
 }
 
-Matrix::~Matrix() {
+Matrix::~Matrix() {																										//destructor
 	for(unsigned int r = 0; r < rows_no; r++) {
 		delete[] array[r];
 	}
-	cout << "remaining references number: " << this->array.getReferences_no();
 	//delete[] array;
 }
 
-Matrix &Matrix::operator=(const Matrix &m) {
 
+// ===============================================================================================================================================
+// =====================================================================================================================PUBLIC METHODS
+
+
+int Matrix::getReferences() {
+	return this->array.getReferences();
+}
+
+Matrix &Matrix::perfectCopy(const Matrix &m) {
+	Matrix temp(m);
+
+	temp.rows_no = m.rows_no;
+	temp.columns_no = m.columns_no;
+
+	temp.allocate();
+
+	for(unsigned int r = 0 ; r < temp.rows_no ; r++) {
+		for(unsigned int c = 0 ; c < temp.columns_no ; c++) {
+			temp.array[r][c] = m.array[r][c];
+		}
+	}
+
+	return *this = temp;
+}
+
+Matrix &Matrix::operator=(const Matrix &m) {
+	this->rows_no = m.rows_no;
+	this->columns_no = m.columns_no;
+	this->array = m.array;
+	return *this;
 }
 
 Matrix &Matrix::operator+=(const Matrix &m) {
-
-
 	if (this->rows_no == m.rows_no && this->columns_no == m.columns_no) {
+		perfectCopy(*this);
 		for (unsigned int r = 0; r < this->rows_no; r++) {
 			for (unsigned int c = 0; c < this->columns_no; c++) {
 				this->array[r][c] += m.array[r][c];
 			}
 		}
 	} else {
-		throw DifferentSizesException();
+		throw AdditionDifferentSizesException();
 	}
 	return *this;
 }
@@ -99,12 +133,15 @@ Matrix &Matrix::operator*=(const Matrix &m) {
 		}
 		*this = result;  // todo: zrobić = copy operator
 	} else {
-		throw DifferentSizesException();
+		throw MultiplicationDifferentSizesException();
 	}
 
 	return *this;
 }
 
+
+// ===============================================================================================================================================
+// =====================================================================================================================FRIEND METHODS
 
 
 Matrix operator+(const Matrix &m1, const Matrix &m2) {
@@ -117,17 +154,24 @@ Matrix operator+(const Matrix &m1, const Matrix &m2) {
 }
 
 ostream &operator<<(ostream &s, const Matrix &m) {
-	for(unsigned int r = 0 ; r < m.rows_no ; r++) {
-		s << "[";
-		for(unsigned int c = 0 ; c < m.columns_no ; c++) {
-			s << " " << m.array[r][c];
+	if (&(m.array) && m.rows_no > 0 && m.columns_no > 0) {
+		for (unsigned int r = 0; r < m.rows_no; r++) {
+			s << "[";
+			for (unsigned int c = 0; c < m.columns_no; c++) {
+				s << " " << m.array[r][c];
+			}
+			s << " ] r:" << r + 1 << endl;
 		}
-		s << " ] r:" << r+1 << endl;
+		s << "c:";
+		for (unsigned int c = 1; c <= m.columns_no; c++) s << c % 10 << " ";
+		s << endl;
+		return s;
+	} else {
+		s << "[none]"  << endl;
+		return s;
 	}
-	s << "c:";
-	for(unsigned int c = 1 ; c <= m.columns_no ; c++) s << c%10 << " ";
-	s << endl;
-	return s;
 }
+
+
 
 

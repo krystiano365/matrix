@@ -32,25 +32,29 @@ public:
 	smart_ptr(){
 		c = new referenceCounter();
 		c->AddRef();
+//		cout << "smart_ptr constructor: remaining references number: " << this->c->GetCounter() << endl;
 	}
 
 	smart_ptr(T* pVal){								// initialize with a value
 		p = pVal;
 		c = new referenceCounter();
 		c->AddRef();
+//		cout << "smart_ptr constructor(T* pVal): remaining references number: " << this->c->GetCounter() << endl;
 	}
 
 	smart_ptr(const smart_ptr<T>& sp) {
 		this->p = sp.p;
 		this->c = sp.c;
 		this->c->AddRef();
+//		cout << "smart_ptr copy constructor: remaining references number: " << this->c->GetCounter() << endl;
 	}
 
 	~smart_ptr(){
 		if(c->SubstractRef() == 0){
+//			cout << "smart_ptr destructor: remaining references number: " << this->c->GetCounter() << endl;
 			delete p;
 			delete c;
-			cout << "smart_ptr deleted" << endl;
+//			cout << "smart_ptr deleted" << endl;
 		}
 	}
 
@@ -78,9 +82,10 @@ public:
 		return p[i];
 	}
 
-	int getReferences_no() const{
-		return c->GetCounter();
+	int getReferences() {
+		return this->c->GetCounter();
 	}
+
 };
 
 
