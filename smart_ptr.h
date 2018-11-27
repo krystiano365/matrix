@@ -76,6 +76,7 @@ public:
 			this->c = sp.c;
 			this->c->AddRef();
 		}
+		return *this;
 	}
 
 	T& operator[] (const unsigned int i) const{

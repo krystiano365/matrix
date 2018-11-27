@@ -3,11 +3,10 @@
 
 int main() {
 
-	Matrix matrix1(10, 12, 7);
+	Matrix matrix1(2, 2, 7);
 	Matrix matrix2;
 	Matrix matrix3(1, 1, 1);
 	cout << "matrix1:\n" << matrix1;
-	cout << "matrix2:\n" << matrix2;
 	cout << "matrix3:\n" << matrix3;
 
 	matrix2 = matrix1;
@@ -16,8 +15,9 @@ int main() {
 	cout << "references to matrix1 = " << matrix1.getReferences() << endl;
 
 	cout << "matrix1:\n" << matrix1;
+	cout << "matrix2:\n" << matrix2;
 
-	matrix2 += matrix2;
+	matrix2 += matrix1;
 
 	cout << "references to matrix1 = " << matrix1.getReferences() << endl;
 
@@ -29,7 +29,6 @@ int main() {
 //	} catch (DifferentSizesException &e) {
 //		cout << e.what();
 //	}
-
 
 
 

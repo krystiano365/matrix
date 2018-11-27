@@ -83,8 +83,34 @@ int Matrix::getReferences() {
 	return this->array.getReferences();
 }
 
+Matrix &Matrix::clone() {
+
+	Matrix temp;
+	cout << "rows no :" << this->rows_no << endl;
+	cout << "cols no :" << this->columns_no << endl;
+	cout << "temp rows no :" << temp.rows_no << endl;
+	cout << "temp cols no :" << temp.columns_no << endl;
+
+	temp.rows_no = this->rows_no;
+	temp.columns_no = this->columns_no;
+
+	temp.allocate();
+
+	for(unsigned int r = 0 ; r < temp.rows_no ; r++) {
+		for(unsigned int c = 0 ; c < temp.columns_no ; c++) {
+			temp.array[r][c] = this->array[r][c];
+		}
+	}
+	this->array = temp.array;
+	cout << "rows no after:" << this->rows_no << endl;
+	cout << "cols no after:" << this->columns_no << endl;
+	cout << "temp rows no after:" << temp.rows_no << endl;
+	cout << "temp cols no after:" << temp.columns_no << endl;
+	return *this; // -------------------------------------------------------------------------------------------------------------tu skonczylem
+}
+
 Matrix &Matrix::perfectCopy(const Matrix &m) {
-	Matrix temp(m);
+	Matrix temp;
 
 	temp.rows_no = m.rows_no;
 	temp.columns_no = m.columns_no;
@@ -109,7 +135,7 @@ Matrix &Matrix::operator=(const Matrix &m) {
 
 Matrix &Matrix::operator+=(const Matrix &m) {
 	if (this->rows_no == m.rows_no && this->columns_no == m.columns_no) {
-		perfectCopy(*this);
+		this->clone();
 		for (unsigned int r = 0; r < this->rows_no; r++) {
 			for (unsigned int c = 0; c < this->columns_no; c++) {
 				this->array[r][c] += m.array[r][c];
@@ -171,6 +197,8 @@ ostream &operator<<(ostream &s, const Matrix &m) {
 		return s;
 	}
 }
+
+
 
 
 

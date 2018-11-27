@@ -25,6 +25,7 @@ public:
 
 	int getReferences();
 	Matrix& perfectCopy(const Matrix& m);
+	Matrix& clone();
 	Matrix& operator+= (const Matrix& m);
 	Matrix& operator-= (const Matrix& m);
 	Matrix& operator*= (const Matrix& m);
