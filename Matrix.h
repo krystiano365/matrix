@@ -24,14 +24,14 @@ public:
 	~Matrix();
 
 	int getReferences();
-	Matrix& perfectCopy(const Matrix& m);
+	//Matrix& perfectCopy(const Matrix& m);
 	Matrix& clone();
 	Matrix& operator+= (const Matrix& m);
 	Matrix& operator-= (const Matrix& m);
 	Matrix& operator*= (const Matrix& m);
 	Matrix& operator/= (const Matrix& m);
 
-	Matrix& operator= (const Matrix& m);  //todo: spytać co powinno robić
+	Matrix& operator= (const Matrix& m) = default;
 
 	friend Matrix operator+ (const Matrix& m1, const Matrix& m2);
 	friend ostream& operator<< (ostream& s, const Matrix& m);
@@ -48,14 +48,14 @@ class DifferentSizesException : public exception { };
 
 class AdditionDifferentSizesException : public DifferentSizesException {
 public:
-	const char* what() const throw() {
+	const char* what() const noexcept override {
 		return "Unable to add matrices: both matrices must have equal sizes";
 	}
 };
 
 class MultiplicationDifferentSizesException : public DifferentSizesException {
 public:
-	const char* what() const throw() {
+	const char* what() const noexcept override {
 		return "Unable to multiply matrices: first matrix's COLUMNS NUMBER must be equal to the second matrix's ROWS "
 		 "NUMBER";
 	}

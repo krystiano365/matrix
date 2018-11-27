@@ -109,29 +109,29 @@ Matrix &Matrix::clone() {
 	return *this; // -------------------------------------------------------------------------------------------------------------tu skonczylem
 }
 
-Matrix &Matrix::perfectCopy(const Matrix &m) {
-	Matrix temp;
+//Matrix &Matrix::perfectCopy(const Matrix &m) {
+//	Matrix temp;
+//
+//	temp.rows_no = m.rows_no;
+//	temp.columns_no = m.columns_no;
+//
+//	temp.allocate();
+//
+//	for(unsigned int r = 0 ; r < temp.rows_no ; r++) {
+//		for(unsigned int c = 0 ; c < temp.columns_no ; c++) {
+//			temp.array[r][c] = m.array[r][c];
+//		}
+//	}
+//
+//	return *this = temp;
+//}
 
-	temp.rows_no = m.rows_no;
-	temp.columns_no = m.columns_no;
-
-	temp.allocate();
-
-	for(unsigned int r = 0 ; r < temp.rows_no ; r++) {
-		for(unsigned int c = 0 ; c < temp.columns_no ; c++) {
-			temp.array[r][c] = m.array[r][c];
-		}
-	}
-
-	return *this = temp;
-}
-
-Matrix &Matrix::operator=(const Matrix &m) {
-	this->rows_no = m.rows_no;
-	this->columns_no = m.columns_no;
-	this->array = m.array;
-	return *this;
-}
+//Matrix &Matrix::operator=(const Matrix &m) {
+//	this->rows_no = m.rows_no;
+//	this->columns_no = m.columns_no;
+//	this->array = m.array;
+//	return *this;
+//}
 
 Matrix &Matrix::operator+=(const Matrix &m) {
 	if (this->rows_no == m.rows_no && this->columns_no == m.columns_no) {
