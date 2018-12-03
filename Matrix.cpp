@@ -57,21 +57,46 @@ Matrix::Matrix(unsigned int rows, unsigned int columns, double initVal) {
 Matrix::Matrix(const Matrix &m) {
 	this->rows_no = m.rows_no;
 	this->columns_no = m.columns_no;
-	this->array = m.array;
+//	this->array = m.array;
 
-//	allocate();
-//	for(unsigned int r = 0 ; r < this->rows_no ; r++) {
-//		for(unsigned int c = 0 ; c < this->columns_no ; c++) {
-//			this->array[r][c] = m.array[r][c];
-//		}
-//	}
+	allocate();
+
+	for(unsigned int r = 0 ; r < this->rows_no ; r++) {
+		for(unsigned int c = 0 ; c < this->columns_no ; c++) {
+			this->array[r][c] = m.array[r][c];
+		}
+	}
+}
+
+Matrix::Matrix(const char* filePath) {
+	FILE *file = nullptr;
+	file = fopen(filePath, "r");
+	rows_no = 1;
+	columns_no = 1;
+
+	if(file != nullptr) {
+		fscanf(file, "%d", &rows_no);
+		fscanf(file, "%d", &columns_no);
+		cout << rows_no << ' ' << columns_no << endl;
+		fclose(file);
+		allocate();
+
+		for (unsigned int r = 0; r < rows_no; r++) {
+			for (unsigned int c = 0; c < columns_no; c++) {
+				array[r][c] = 0;
+			}
+		}
+	} else {
+		delete file;
+	}
+
 }
 
 Matrix::~Matrix() {																										//destructor
 	for(unsigned int r = 0; r < rows_no; r++) {
 		delete[] array[r];
 	}
-	//delete[] array;
+	delete[] array;
 }
 
 
@@ -79,35 +104,35 @@ Matrix::~Matrix() {																										//destructor
 // =====================================================================================================================PUBLIC METHODS
 
 
-int Matrix::getReferences() {
-	return this->array.getReferences();
-}
+//int Matrix::getReferences() {
+//	return this->array.getReferences();
+//}
 
-Matrix &Matrix::clone() {
-
-	Matrix temp;
-	cout << "rows no :" << this->rows_no << endl;
-	cout << "cols no :" << this->columns_no << endl;
-	cout << "temp rows no :" << temp.rows_no << endl;
-	cout << "temp cols no :" << temp.columns_no << endl;
-
-	temp.rows_no = this->rows_no;
-	temp.columns_no = this->columns_no;
-
-	temp.allocate();
-
-	for(unsigned int r = 0 ; r < temp.rows_no ; r++) {
-		for(unsigned int c = 0 ; c < temp.columns_no ; c++) {
-			temp.array[r][c] = this->array[r][c];
-		}
-	}
-	this->array = temp.array;
-	cout << "rows no after:" << this->rows_no << endl;
-	cout << "cols no after:" << this->columns_no << endl;
-	cout << "temp rows no after:" << temp.rows_no << endl;
-	cout << "temp cols no after:" << temp.columns_no << endl;
-	return *this; // -------------------------------------------------------------------------------------------------------------tu skonczylem
-}
+//Matrix &Matrix::clone() {
+//
+//	Matrix temp;
+//	cout << "rows no :" << this->rows_no << endl;
+//	cout << "cols no :" << this->columns_no << endl;
+//	cout << "temp rows no :" << temp.rows_no << endl;
+//	cout << "temp cols no :" << temp.columns_no << endl;
+//
+//	temp.rows_no = this->rows_no;
+//	temp.columns_no = this->columns_no;
+//
+//	temp.allocate();
+//
+//	for(unsigned int r = 0 ; r < temp.rows_no ; r++) {
+//		for(unsigned int c = 0 ; c < temp.columns_no ; c++) {
+//			temp.array[r][c] = this->array[r][c];
+//		}
+//	}
+//	this->array = temp.array;
+//	cout << "rows no after:" << this->rows_no << endl;
+//	cout << "cols no after:" << this->columns_no << endl;
+//	cout << "temp rows no after:" << temp.rows_no << endl;
+//	cout << "temp cols no after:" << temp.columns_no << endl;
+//	return *this; // -------------------------------------------------------------------------------------------------------------tu skonczylem
+//}
 
 //Matrix &Matrix::perfectCopy(const Matrix &m) {
 //	Matrix temp;
@@ -126,16 +151,30 @@ Matrix &Matrix::clone() {
 //	return *this = temp;
 //}
 
-//Matrix &Matrix::operator=(const Matrix &m) {
-//	this->rows_no = m.rows_no;
-//	this->columns_no = m.columns_no;
+Matrix &Matrix::operator=(const Matrix &m) {
+	for(unsigned int r = 0; r < rows_no; r++) {
+		delete[] array[r];
+	}
+	delete[] array;
+
+	this->rows_no = m.rows_no;
+	this->columns_no = m.columns_no;
 //	this->array = m.array;
-//	return *this;
-//}
+
+	allocate();
+
+	for(unsigned int r = 0 ; r < this->rows_no ; r++) {
+		for(unsigned int c = 0 ; c < this->columns_no ; c++) {
+			this->array[r][c] = m.array[r][c];
+		}
+	}
+	return *this;
+}
+
 
 Matrix &Matrix::operator+=(const Matrix &m) {
 	if (this->rows_no == m.rows_no && this->columns_no == m.columns_no) {
-		this->clone();
+		//this->clone();
 		for (unsigned int r = 0; r < this->rows_no; r++) {
 			for (unsigned int c = 0; c < this->columns_no; c++) {
 				this->array[r][c] += m.array[r][c];
@@ -153,7 +192,7 @@ Matrix &Matrix::operator*=(const Matrix &m) {
 		for (unsigned int k = 0; k < this->rows_no; k++) {
 			for (unsigned int j = 0; j < m.columns_no; j++) {
 				for(unsigned int i = 0; i < this->columns_no; i++) {
-					result.array[k][j] = array[k][i] * m.array[i][j];
+					result.array[k][j] += (array[k][i] * m.array[i][j]);
 				}
 			}
 		}
@@ -170,14 +209,14 @@ Matrix &Matrix::operator*=(const Matrix &m) {
 // =====================================================================================================================FRIEND METHODS
 
 
-Matrix operator+(const Matrix &m1, const Matrix &m2) {
-
-	Matrix result(m1);
-
-	result += m2;
-
-	return result;
-}
+//Matrix operator+(const Matrix &m1, const Matrix &m2) {
+//
+//	Matrix result(m1);
+//
+//	result += m2;
+//
+//	return result;
+//}
 
 ostream &operator<<(ostream &s, const Matrix &m) {
 	if (&(m.array) && m.rows_no > 0 && m.columns_no > 0) {
@@ -197,6 +236,8 @@ ostream &operator<<(ostream &s, const Matrix &m) {
 		return s;
 	}
 }
+
+
 
 
 
